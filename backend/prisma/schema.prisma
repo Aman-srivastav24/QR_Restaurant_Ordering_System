@@ -1,25 +1,19 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql"
+   url      = env("DATABASE_URL")
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url = env("DATABASE_URL")
-}
-
-model Admin{
-  id string @id @default(uuid())
-  email string @unique
-  password string
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
 
-  menuItems = MenuItem[]
+  menuItems MenuItem[]
 }
 
 model MenuItem {
@@ -28,7 +22,7 @@ model MenuItem {
   description String?
   price       Int
   isActive    Boolean  @default(true)
-  createdAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
 
   adminId String
   admin   Admin @relation(fields: [adminId], references: [id])
@@ -37,11 +31,10 @@ model MenuItem {
 }
 
 model Order {
-  id           String      @id @default(uuid())
-  tableNo      Int
-  customerName String?
-  status       OrderStatus @default(PENDING)
-  createdAt    DateTime    @default(now())
+  id         String      @id @default(uuid())
+  tableNo    Int
+  status     OrderStatus @default(PENDING)
+  createdAt  DateTime    @default(now())
 
   items OrderItem[]
 }
@@ -62,4 +55,3 @@ enum OrderStatus {
   PENDING
   ACCEPTED
 }
-
