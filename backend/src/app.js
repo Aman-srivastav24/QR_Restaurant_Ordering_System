@@ -14,4 +14,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+/** error handler
+ * Note: This should be registered after all routes and other middleware
+ */
+
+const errorHandler = require('./middleware/errorMiddleware');
+app.use(errorHandler);  
+
 module.exports = app;
