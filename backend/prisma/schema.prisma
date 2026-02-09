@@ -21,7 +21,8 @@ model MenuItem {
   name        String
   description String?
   price       Int
-  isActive    Boolean  @default(true)
+  imageUrl    String?
+  available   Boolean  @default(true)
   createdAt   DateTime @default(now())
 
   adminId String
@@ -31,10 +32,11 @@ model MenuItem {
 }
 
 model Order {
-  id         String      @id @default(uuid())
-  tableNo    Int
-  status     OrderStatus @default(PENDING)
-  createdAt  DateTime    @default(now())
+  id           String      @id @default(uuid())
+  tableNo      Int
+  customerName String?
+  status       OrderStatus @default(PLACED)
+  createdAt    DateTime    @default(now())
 
   items OrderItem[]
 }
@@ -52,6 +54,7 @@ model OrderItem {
 }
 
 enum OrderStatus {
-  PENDING
+  PLACED
   ACCEPTED
+  REJECTED
 }
