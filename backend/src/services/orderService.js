@@ -116,9 +116,33 @@ const getAllOrders = async () => {
   });
 };
 
+const updateOrderStatus = async (orderId, newStatus) => {
+  const order = await prisma.order.findUnique({
+    where: { id: orderId }
+  });
+
+  if (!order) {
+    throw new Error('Order not found');
+  }
+
+  if (order.status !== 'PLACED') {
+    throw new Error(`Order cannot be updated from status ${order.status}`);
+  }
+
+  if (!['ACCEPTED', 'REJECTED'].includes(newStatus)) {
+    throw new Error('Invalid order status');
+  }
+
+  return prisma.order.update({
+    where: { id: orderId },
+    data: { status: newStatus }
+  });
+};
+
 module.exports = {
   placeOrder,
-  getAllOrders
+  getAllOrders,
+  updateOrderStatus
 };
 
 

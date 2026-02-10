@@ -36,9 +36,30 @@ const getOrders = async (req, res) => {
 };
 
 
-const updateOrderStatus = (req, res) => {
-  res.status(501).json({ success: false, message: 'Not implemented' });
+const updateOrderStatus = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    const updatedOrder = await orderService.updateOrderStatus(orderId, status);
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        orderId: updatedOrder.id,
+        status: updatedOrder.status
+      }
+    });
+  } catch (error) {
+    console.error('Update order status error:', error.message);
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
 };
+
 
 module.exports = {
   placeOrder,
