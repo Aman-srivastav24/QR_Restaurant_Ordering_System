@@ -1,10 +1,10 @@
 const prisma = require('../prisma');
 
 const placeOrder = async (payload) => {
-  const { tableNumber, customerName, items } = payload;
-
+  const { tableNo, customerName, items } = payload;
+  console.log(tableNo, customerName, items); 
   // Validation
-  if (!tableNumber || typeof tableNumber !== 'number' || tableNumber <= 0) {
+  if (!tableNo || typeof tableNo !== 'number' || tableNo <= 0) {
     throw new Error('Invalid table number');
   }
 
@@ -52,7 +52,7 @@ const placeOrder = async (payload) => {
     // 1. Create order
     const order = await tx.order.create({
       data: {
-        tableNo: tableNumber,
+        tableNo: tableNo,
         customerName: customerName || null
       }
     });
@@ -102,7 +102,7 @@ const getAllOrders = async () => {
 
     return {
       orderId: order.id,
-      tableNumber: order.tableNo,
+      tableNo: order.tableNo,
       customerName: order.customerName,
       status: order.status,
       createdAt: order.createdAt,

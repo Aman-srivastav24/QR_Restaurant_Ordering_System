@@ -93,7 +93,7 @@ Notes:
 
 # Menu APIs
 
-## GET /menu
+## GET /menu (Customer)
 
 Purpose:
 Fetch menu items.
@@ -120,6 +120,7 @@ Notes:
 - Admin may see all items when authenticated
 
 ---
+## GET /admin/menu (Admin)
 
 ## POST /menu
 
@@ -200,7 +201,7 @@ Not Required
 
 Request Body:
 {
-  "tableNumber": 0,
+  "tableNo": 0,
   "customerName": "string",
   "items": [
     {
@@ -239,22 +240,21 @@ Success Response (200):
   "data": [
     {
       "id": "string",
-      "tableNumber": 0,
+      "tableNo": 0,
       "status": "PLACED",
       "createdAt": "string"
     }
   ]
 }
 
----
 
-## Order Status Values
+### Update Order Status (Admin)
 
-- PLACED
-- ACCEPTED
-- REJECTED
+PUT /admin/orders/:orderId/status
 
----
+Allowed status values: - ACCEPTED - REJECTED
+
+
 
 ## Out of Scope
 
