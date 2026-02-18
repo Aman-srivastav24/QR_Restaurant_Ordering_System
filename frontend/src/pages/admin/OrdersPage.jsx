@@ -8,10 +8,8 @@ export default function OrdersPage() {
   const fetchOrders = async () => {
     try {
       const res = await getOrders();
-      console.log(res.data)
+      console.log(res.data);
       setOrders(res.data);
-    //   console.log(orders.item)
-      
     } catch (err) {
       console.error(err);
     }
@@ -25,56 +23,89 @@ export default function OrdersPage() {
     try {
       await updateOrderStatus(orderId, status);
       fetchOrders();
-      
     } catch (err) {
       console.error(err);
     }
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>Orders</h1>
+    <div className="px-4 py-6 max-w-5xl mx-auto">
 
-      {orders.map(order => (
-        <div
-          key={order.orderId}
-          style={{
-            border: "1px solid #ddd",
-            padding: "20px",
-            marginBottom: "20px"
-          }}
-        >
-          <h3>Order ID: {order.orderId}</h3>
-          <p>Table: {order.tableNo}</p>
-          <p>Status: {order.status}</p>
-          <p>Time: {new Date(order.createdAt).toLocaleString()}</p>
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6">
+        Orders
+      </h1>
 
-          <h4>Items:</h4>
-          {order.items.map(item => (
-            <div key={item.id}>
-              {item.menuItemName} × {item.quantity}
-            </div>
-          ))}
+      <div className="flex flex-col gap-5">
+        {orders.map(order => (
+          <div
+            key={order.orderId}
+            className="bg-white border rounded-xl p-5 shadow-sm"
+          >
 
-          {order.status === "PLACED" && (
-            <div style={{ marginTop: "10px" }}>
-              <button
-                onClick={() => handleStatusUpdate(order.orderId, "ACCEPTED")}
+            <h3 className="text-lg font-semibold mb-2">
+              Order ID: {order.orderId}
+            </h3>
+
+            <p className="text-sm text-gray-600">
+              Table: <span className="font-medium text-black">{order.tableNo}</span>
+            </p>
+
+            <p className="text-sm text-gray-600">
+              Status:{" "}
+              <span
+                className={`font-medium ${
+                  order.status === "PLACED"
+                    ? "text-yellow-600"
+                    : order.status === "ACCEPTED"
+                    ? "text-green-600"
+                    : "text-red-500"
+                }`}
               >
-                Accept
-              </button>
+                {order.status}
+              </span>
+            </p>
 
-              <button
-                style={{ marginLeft: "10px" }}
-                onClick={() => handleStatusUpdate(order.orderId, "REJECTED")}
-              >
-                Reject
-              </button>
+            <p className="text-sm text-gray-500 mb-3">
+              Time: {new Date(order.createdAt).toLocaleString()}
+            </p>
+
+            <h4 className="font-medium mb-2">Items:</h4>
+
+            <div className="flex flex-col gap-1 mb-3">
+              {order.items.map(item => (
+                <div
+                  key={item.id}
+                  className="text-sm text-gray-700"
+                >
+                  {item.menuItemName} × {item.quantity}
+                </div>
+              ))}
             </div>
-          )}
 
-        </div>
-      ))}
+            {order.status === "PLACED" && (
+              <div className="flex gap-3 mt-3">
+
+                <button
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 active:scale-95 transition"
+                  onClick={() => handleStatusUpdate(order.orderId, "ACCEPTED")}
+                >
+                  Accept
+                </button>
+
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 active:scale-95 transition"
+                  onClick={() => handleStatusUpdate(order.orderId, "REJECTED")}
+                >
+                  Reject
+                </button>
+
+              </div>
+            )}
+
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 }

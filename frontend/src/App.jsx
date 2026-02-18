@@ -8,7 +8,6 @@ function App() {
 
   return (
     <>
-      <h1>QR Ordering System</h1>
       <AppRoutes/>
     </>
   );

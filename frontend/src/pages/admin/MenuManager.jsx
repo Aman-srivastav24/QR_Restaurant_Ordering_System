@@ -31,15 +31,16 @@ export default function MenuManager() {
     fetchMenu();
   }, []);
 
-  // Add Item
   const handleAdd = async () => {
     try {
       if (!name || !price) return alert("Enter name and price");
 
       await createMenuItem({
         name,
-        price: Number(price)
-        , description, imageUrl, available  
+        price: Number(price),
+        description,
+        imageUrl,
+        available
       });
 
       setName("");
@@ -54,13 +55,11 @@ export default function MenuManager() {
     }
   };
 
-  // Start Edit
   const startEdit = (item) => {
     setEditingId(item.id);
     setEditData(item);
   };
 
-  // Save Edit
   const handleSave = async () => {
     try {
       await updateMenuItem(editingId, {
@@ -79,7 +78,6 @@ export default function MenuManager() {
     }
   };
 
-  // Delete
   const handleDelete = async (id) => {
     try {
       await deleteMenuItem(id);
@@ -90,124 +88,171 @@ export default function MenuManager() {
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>Menu Manager</h1>
+    <div className="px-4 py-6 max-w-5xl mx-auto">
+      
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6">
+        Menu Manager
+      </h1>
 
       {/* Add Item */}
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Item Name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
+      <div className="bg-white border rounded-xl p-4 shadow-sm mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
 
-        <input
-          placeholder="Price"
-          type="number"
-          value={price}
-          onChange={e => setPrice(e.target.value)}
-          style={{ marginLeft: "10px" }}
-        />
-        
-        <input
-          placeholder="Description"
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-          style={{ marginLeft: "10px" }}
-        />
-        <input
-          placeholder="Image URL"
-          value={imageUrl}
-          onChange={e => setImageUrl(e.target.value)}
-          style={{ marginLeft: "10px" }}
-        />
-        <label style={{ marginLeft: "10px" }}>
-          Available
-          <input        type="checkbox"     checked={available} onChange={e => setAvailable(e.target.checked)} />
-        </label>
+          <input
+            className="border rounded-lg px-3 py-2"
+            placeholder="Item Name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
 
+          <input
+            className="border rounded-lg px-3 py-2"
+            placeholder="Price"
+            type="number"
+            value={price}
+            onChange={e => setPrice(e.target.value)}
+          />
 
-        <button onClick={handleAdd} style={{ marginLeft: "10px" }}>
+          <input
+            className="border rounded-lg px-3 py-2"
+            placeholder="Description"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
+
+          <input
+            className="border rounded-lg px-3 py-2"
+            placeholder="Image URL"
+            value={imageUrl}
+            onChange={e => setImageUrl(e.target.value)}
+          />
+
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={available}
+              onChange={e => setAvailable(e.target.checked)}
+            />
+            Available
+          </label>
+
+        </div>
+
+        <button
+          onClick={handleAdd}
+          className="mt-4 bg-black text-white px-6 py-2 rounded-lg hover:opacity-90 active:scale-95 transition"
+        >
           Add Item
         </button>
       </div>
 
       {/* Menu List */}
-      {menu.map(item => {
+      <div className="flex flex-col gap-4">
+        {menu.map(item => {
 
-        const isEditing = editingId === item.id;
+          const isEditing = editingId === item.id;
 
-        return (
-          <div
-            key={item.id}
-            style={{
-              border: "1px solid #ddd",
-              padding: "15px",
-              marginBottom: "10px"
-            }}
-          >
+          return (
+            <div
+              key={item.id}
+              className="bg-white border rounded-xl p-4 shadow-sm"
+            >
 
-            {isEditing ? (
-              <>
-                <input
-                  value={editData.name || ""}
-                  onChange={e => setEditData({ ...editData, name: e.target.value })}
-                />
+              {isEditing ? (
+                <div className="flex flex-col gap-3">
 
-                <input
-                  type="number"
-                  value={editData.price || ""}
-                  onChange={e => setEditData({ ...editData, price: e.target.value })}
-                />
-
-                <input
-                  placeholder="Description"
-                  value={editData.description || ""}
-                  onChange={e => setEditData({ ...editData, description: e.target.value })}
-                />
-
-                <input
-                  placeholder="Image URL"
-                  value={editData.imageUrl || ""}
-                  onChange={e => setEditData({ ...editData, imageUrl: e.target.value })}
-                />
-
-                <label>
-                  Available
                   <input
-                    type="checkbox"
-                    checked={editData.available}
-                    onChange={e =>
-                      setEditData({ ...editData, available: e.target.checked })
-                    }
+                    className="border rounded-lg px-3 py-2"
+                    value={editData.name || ""}
+                    onChange={e => setEditData({ ...editData, name: e.target.value })}
                   />
-                </label>
 
-                <button onClick={handleSave}>Save</button>
-                <button onClick={() => setEditingId(null)}>Cancel</button>
+                  <input
+                    className="border rounded-lg px-3 py-2"
+                    type="number"
+                    value={editData.price || ""}
+                    onChange={e => setEditData({ ...editData, price: e.target.value })}
+                  />
 
-              </>
-            ) : (
-              <>
-                <h3>{item.name}</h3>
-                <p>₹ {item.price}</p>
-                <p>{item.description}</p>
-                <p>Status: {item.available ? "Available" : "Disabled"}</p>
+                  <input
+                    className="border rounded-lg px-3 py-2"
+                    placeholder="Description"
+                    value={editData.description || ""}
+                    onChange={e => setEditData({ ...editData, description: e.target.value })}
+                  />
 
-                <button onClick={() => startEdit(item)}>Edit</button>
+                  <input
+                    className="border rounded-lg px-3 py-2"
+                    placeholder="Image URL"
+                    value={editData.imageUrl || ""}
+                    onChange={e => setEditData({ ...editData, imageUrl: e.target.value })}
+                  />
 
-                <button
-                  style={{ marginLeft: "10px" }}
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </button>
-              </>
-            )}
+                  <label className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={editData.available}
+                      onChange={e =>
+                        setEditData({ ...editData, available: e.target.checked })
+                      }
+                    />
+                    Available
+                  </label>
 
-          </div>
-        );
-      })}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleSave}
+                      className="bg-black text-white px-4 py-2 rounded-lg"
+                    >
+                      Save
+                    </button>
+
+                    <button
+                      onClick={() => setEditingId(null)}
+                      className="border px-4 py-2 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  <p className="text-gray-700">₹ {item.price}</p>
+                  <p className="text-gray-500 text-sm">{item.description}</p>
+                  <p className="text-sm">
+                    Status:{" "}
+                    <span className={item.available ? "text-green-600" : "text-red-500"}>
+                      {item.available ? "Available" : "Disabled"}
+                    </span>
+                  </p>
+
+                  <div className="flex gap-3 mt-2">
+                    <button
+                      onClick={() => startEdit(item)}
+                      className="bg-black text-white px-4 py-2 rounded-lg text-sm"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="border border-red-400 text-red-500 px-4 py-2 rounded-lg text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+
+                </div>
+              )}
+
+            </div>
+          );
+        })}
+      </div>
+
     </div>
   );
 }

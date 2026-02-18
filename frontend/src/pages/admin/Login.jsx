@@ -3,7 +3,6 @@ import { adminLogin } from "../../api/authaPi";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,7 +10,6 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-
       if (!email || !password) {
         alert("Enter email and password");
         return;
@@ -30,28 +28,35 @@ export default function Login() {
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Admin Login</h1>
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
+      <div className="w-full max-w-md bg-white shadow-md rounded-2xl p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          Admin Login
+        </h1>
 
-      <div style={{ display: "flex", flexDirection: "column", width: "300px", gap: "10px" }}>
+        <div className="flex flex-col gap-4">
+          <input
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <input
+            type="password"
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button onClick={handleLogin}>
-          Login
-        </button>
-
+          <button
+            className="bg-black text-white py-2 rounded-lg font-medium hover:opacity-90 active:scale-95 transition"
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+        </div>
       </div>
     </div>
   );
