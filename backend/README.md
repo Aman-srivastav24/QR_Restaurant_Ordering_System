@@ -35,7 +35,7 @@ npx prisma migrate dev
 Start server:
 
 ``` bash
-npm run dev
+node src/server.js
 ```
 
 ## Documentation
