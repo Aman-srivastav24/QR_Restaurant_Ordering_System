@@ -7,11 +7,14 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies
-RUN npm install --omit=dev && npx prisma generate
+RUN npm install --omit=dev  
 
 
 # Copy project files
 COPY . .
+
+RUN npx prisma generate
+
 
 # Expose your backend port
 EXPOSE 5000
