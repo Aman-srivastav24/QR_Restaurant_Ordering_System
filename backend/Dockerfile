@@ -7,7 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies
-RUN npm install --omit=dev
+RUN npm install --omit=dev && npx prisma generate
+
 
 # Copy project files
 COPY . .
