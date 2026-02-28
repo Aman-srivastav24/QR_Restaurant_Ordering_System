@@ -35,7 +35,7 @@ export default function MenuPage() {
     <div className="px-4 py-5 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Menu</h1>
+        <h1 className="text-2xl font-bold">Menu - Aman Restaurant</h1>
         <Link
           to="/cart"
           className="bg-black text-white px-4 py-2 rounded-lg text-sm"
